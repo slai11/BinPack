@@ -107,12 +107,12 @@ int main(){
         g1 = NaturalSelection(Population);
         g2 = NaturalSelection(Population);
 
+        //crossover
+        Crossover(g1, g2);
+
         // mutate
         g1 = Mutate(g1);
         g2 = Mutate(g2);
-
-        //crossover
-        Crossover(g1, g2);
 
         // replace pop
         temppop[currentpopsize++] = chromo(g1, Score(g1));
