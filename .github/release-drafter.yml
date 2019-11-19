@@ -2,9 +2,9 @@ name-template: v$NEXT_PATCH_VERSION
 tag-template: v$NEXT_PATCH_VERSION
 categories:
   - title: 🚀 Features
-    label: feat
+    label: 'feat'
   - title: 🐛 Bug Fixes
-    label: fix
+    label: 'fix'
   - title: 🧰 Maintenance
     label: chore
 tag-template: - $TITLE @$AUTHOR (#$NUMBER)
