@@ -4,9 +4,10 @@ on: [pull_request]
 jobs:
   lint:
     runs-on: ubuntu-latest
-    configFile: .github/commitlint.config.js # optional, .github/pr-labeler.yml is the default value
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v1
       - uses: wagoid/commitlint-github-action@v1.2.2
+        with:
+          configFile: '.github/commitlint.config.js'
