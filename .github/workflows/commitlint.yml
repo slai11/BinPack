@@ -1,6 +1,7 @@
 name: Commitlint
-on: [pull_request]
-
+on:
+  pull_request:
+    types: [opened]
 jobs:
   lint:
     runs-on: ubuntu-latest
