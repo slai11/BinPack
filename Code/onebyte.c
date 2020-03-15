@@ -38,36 +38,65 @@ int onebyte_release(struct inode *inode, struct file *filep)
     return 0; // always successful
 }
 
+//ssize_t onebyte_read(struct file *filep, char *buf, size_t count, loff_t *f_pos)
+//{ /*please complete the function on your own*/
+//    int byte_read = 0;
+//
+//    // if empty
+//    if (*onebyte_data == 0)
+//        return 0;
+//
+//    put_user(*onebyte_data, buf);
+//    return sizeof(onebyte_data);
+//}
+//
+//ssize_t onebyte_write(struct file *filep, const char *buf, size_t count, loff_t *f_pos)
+//{
+//    if (count > 1)
+//    {
+//        pr_info("string too long");
+//        return -ENOSPC;
+//    }
+//
+//    if (raw_copy_from_user(onebyte_data, buf, 1))
+//        return -EFAULT;
+//
+//    *f_pos += 1;
+//
+//    return 1;
+//}
+
 ssize_t onebyte_read(struct file *filep, char *buf, size_t count, loff_t *f_pos)
-{ /*please complete the function on your own*/
-    int byte_read = 0;
+{
+  if(isEmpty || onebyte_data == NULL || count < 1) {
+    return 0;
+  }
 
-    // if empty
-    if (*onebyte_data == 0)
-        return 0;
+  // copy byte into buf
+  if (put_user(*onebyte_data, buf)) {
+    return 0;
+  }
 
-    put_user(*onebyte_data, buf);
-    count--;
-    return 1;
+  isEmpty = true;
+  return 1;
 }
 
 ssize_t onebyte_write(struct file *filep, const char *buf, size_t count, loff_t *f_pos)
 {
-    if (count > 1)
-    {
-        pr_info("string too long");
-        return -ENOSPC;
+  int ret;
+
+  if(isEmpty) {
+    if(get_user(*onebyte_data, buf)) {
+      ret = 0;
     }
+    isEmpty = false;
+    ret = 1;
+  } else {
+    ret = -ENOSPC;
+  }
 
-    if (copy_from_user(onebyte_data, buf, 1))
-        return -EFAULT;
-
-    *f_pos += 1;
-
-    return 1;
+  return ret;
 }
-
-
 static int onebyte_init(void)
 {
     int result;
